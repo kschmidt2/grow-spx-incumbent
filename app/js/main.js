@@ -12,11 +12,11 @@ Highcharts.setOptions({
     }
 });
 
-let chartId = document.getElementById("chart-container");
+let chartIdIncumbent = document.getElementById("chart-container-spx-incumbent");
 
 // checks for the chart ID and displays a backup image if the browser can't find it
 setTimeout(function() {
-    if(chartId.innerHTML === "") {
+    if(chartIdIncumbent.innerHTML === "") {
         // console.log('noId');
         let chartArea = document.getElementsByClassName("chart-area");
         for(var i = 0; i < chartArea.length; i++) {
@@ -30,7 +30,7 @@ setTimeout(function() {
 },500);
 
 function drawHighcharts() {
-    Highcharts.chart(chartId, {
+    Highcharts.chart(chartIdIncumbent, {
         chart: {
             type: 'bar',
             styledMode: true,
@@ -43,13 +43,16 @@ function drawHighcharts() {
             text: null
         },
         data: {
-            googleSpreadsheetKey: '1YOKb5l2VM4aAB2r20N_1aT_1vEajYrP3U-U3A6lZbC0'
+            googleSpreadsheetKey: '1QwNeblUnd7ilNMsWzxl1Cb9G-ORFIR-eai8YHqBYyNM'
         },
         // for bar charts only
         plotOptions: {
             series: {
-                groupPadding: 0.1
-            } 
+                groupPadding: 0.1,
+                clip: false,
+                stacking: 'normal'
+            },
+            
         },
         // for line charts only
         // plotOptions: {
@@ -69,10 +72,10 @@ function drawHighcharts() {
         //     }
         // },
         legend: {
-            align: 'right',
+            align: 'left',
             symbolRadius: 0,
             verticalAlign: 'top',
-            x: 10,
+            x: -8,
             itemMarginTop: -10
         },
         xAxis: {
@@ -82,6 +85,7 @@ function drawHighcharts() {
                 }
             },
             tickLength: 5,
+            type: 'category'
             // edits xAxis ticks
             // dateTimeLabelFormats: {
             //     week: '%b. %e',
@@ -94,6 +98,28 @@ function drawHighcharts() {
                 useHTML: true,
                 overflow: 'allow'
             },
+            tickAmount: 6,
+            max: 30,
+            min: -20,
+            plotLines: [{
+                value: 9.1,
+                zIndex: 5,
+                label: {
+                    text: 'New president<br>average',
+                    rotation: 0,
+                    align: 'center',
+                    y: -25,
+                }
+            },{
+                value: 22.5,
+                zIndex: 5,
+                label: {
+                    text: 'Incumbent<br>average',
+                    rotation: 0,
+                    align: 'center',
+                    y: -25,
+                }
+            }]
             // adds commas to thousands
             // formatter: function () {
             //     return Highcharts.numberFormat(this.value,0,'.',',');
@@ -104,7 +130,8 @@ function drawHighcharts() {
         },
         tooltip: {
             shadow: false,
-            padding: 10
+            padding: 10,
+            valueSuffix: '%'
         },
         responsive: {
             rules: [{
@@ -117,7 +144,7 @@ function drawHighcharts() {
                 },
                 legend: {
                     align: 'left',
-                    x: -18
+                    x: -8
                 },
                 tooltip: {
                     enabled: false
